@@ -1,0 +1,6 @@
+{
+  "name" : "Savanna",
+  "groundTexture" : "grass.jpg",
+  "treeSpawnChance" : 0.5,
+  "maxTrees" : 50
+}

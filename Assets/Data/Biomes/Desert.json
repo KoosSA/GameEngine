@@ -1,0 +1,6 @@
+{
+  "name" : "Desert",
+  "groundTexture" : "sand.jpg",
+  "treeSpawnChance" : 0,
+  "maxTrees" : 0
+}
