@@ -57,7 +57,7 @@ public class Window {
 		GLFW.glfwMakeContextCurrent(window);
 
 		GL.createCapabilities();
-		
+
 		GL15.glEnable(GL15.GL_CULL_FACE);
 		GL15.glCullFace(GL15.GL_BACK);
 
@@ -69,8 +69,10 @@ public class Window {
 
 		Log.info(getClass(), "Window created.");
 
-		input = new GameInput();
+		input = new GameInput(window);
 		loop.baseInit(input);
+
+		input.hideCursor();
 
 		GLFW.glfwShowWindow(window);
 
@@ -119,6 +121,10 @@ public class Window {
 
 	public long getWindowId() {
 		return window;
+	}
+
+	public void quit() {
+		GLFW.glfwSetWindowShouldClose(window, true);
 	}
 
 }

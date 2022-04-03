@@ -23,11 +23,13 @@ import com.spinyowl.legui.system.layout.LayoutManager;
 import com.spinyowl.legui.system.renderer.Renderer;
 
 import engine.io.GameInput;
+import engine.io.IInputHandler;
+import engine.io.KeyBindings;
 import engine.io.Window;
 import engine.settings.WindowSettings;
 import engine.utils.Loader;
 
-public abstract class BaseGameLoop extends Thread {
+public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 	private Window display;
 	private Renderer guiRenderer;
@@ -50,6 +52,7 @@ public abstract class BaseGameLoop extends Thread {
 	}
 
 	public void baseInit(GameInput input) {
+		registerInputHandler();
 		frame = new Frame(WindowSettings.width, WindowSettings.height);
 		initializer = new DefaultInitializer(getDisplay().getWindowId(), frame);
 		guiRenderer = initializer.getRenderer();
@@ -137,5 +140,11 @@ public abstract class BaseGameLoop extends Thread {
 		WindowSettings.height = height;
 		WindowSettings.width = width;
 		frame.setSize(width, height);
+	}
+
+	@Override
+	public void handleInput(float delta, GameInput input) {
+		if (input.isKeyJustPressed(KeyBindings.FORCE_QUIT)) getDisplay().quit();
+
 	}
 }

@@ -4,6 +4,8 @@ import org.lwjgl.glfw.GLFW;
 
 public class KeyBindings {
 
+	public static final int FORCE_QUIT = GLFW.GLFW_KEY_ESCAPE;
+
 	public static final int MOVE_FORWARD = GLFW.GLFW_KEY_W;
 	public static final int MOVE_BACK = GLFW.GLFW_KEY_S;
 	public static final int MOVE_LEFT = GLFW.GLFW_KEY_A;
