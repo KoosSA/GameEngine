@@ -63,4 +63,10 @@ public class MathUtils {
 		return arr;
 	}
 
+	public static float clamp(float value, int min, int max) {
+		if (value > max) value = max;
+		if (value < min) value = min;
+		return value;
+	}
+
 }
