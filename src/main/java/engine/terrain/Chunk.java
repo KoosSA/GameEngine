@@ -30,6 +30,8 @@ public class Chunk {
 		return material;
 	}
 
-
+	public Biome getBiome() {
+		return biome;
+	}
 
 }
