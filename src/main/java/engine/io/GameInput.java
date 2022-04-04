@@ -88,7 +88,7 @@ public class GameInput {
 	public void showCursor() {
 		if (!cursorHidden) return;
 		GLFW.glfwSetCursorPos(window, WindowSettings.width / 2, WindowSettings.height / 2);
-		//GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+		GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
 		cursorHidden = false;
 	}
 
