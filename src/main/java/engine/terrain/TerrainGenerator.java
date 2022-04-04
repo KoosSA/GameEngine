@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.koossa.filesystem.Files;
+import com.koossa.logger.Log;
 import com.koossa.savelib.SaveSystem;
 
 import engine.models.RawModel;
@@ -92,6 +93,18 @@ public class TerrainGenerator {
 
 	public static List<Chunk> getChunkList() {
 		return chunkList;
+	}
+
+	public static Biome getBiome(String name) {
+		if (availableBiomes.containsKey(name)) {
+			return availableBiomes.get(name);
+		}
+		Log.error(TerrainGenerator.class, "Biome does not exist: " + name);
+		return null;
+	}
+
+	public static List<String> getBiomeNames() {
+		return names;
 	}
 
 }
