@@ -13,4 +13,6 @@ public class KeyBindings {
 	public static final int MOVE_UP = GLFW.GLFW_KEY_Q;
 	public static final int MOVE_DOWN = GLFW.GLFW_KEY_Z;
 
+	public static final int INVENTORY = GLFW.GLFW_KEY_I;
+
 }
