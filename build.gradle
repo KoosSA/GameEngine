@@ -65,8 +65,6 @@ dependencies {
 
 	implementation group: 'com.spinyowl', name: 'legui', version: "${legui}";
 
-	implementation 'com.github.SpinyOwl:SpinyGui:-SNAPSHOT'
-
 	implementation 'com.github.KoosSA:FileSystem:v1.0.0'
 	implementation 'com.github.KoosSA:Logger:v1.0.0'
 	implementation 'com.github.KoosSA:SaveLibrary:1.0.1'
