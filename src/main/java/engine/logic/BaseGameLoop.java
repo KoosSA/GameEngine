@@ -26,7 +26,9 @@ import engine.io.GameInput;
 import engine.io.IInputHandler;
 import engine.io.KeyBindings;
 import engine.io.Window;
+import engine.renderers.TerrainRenderer;
 import engine.settings.WindowSettings;
+import engine.utils.Camera;
 import engine.utils.Loader;
 
 public abstract class BaseGameLoop extends Thread implements IInputHandler {
@@ -39,6 +41,8 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	private Animator guiAnimator;
 	protected CallbackKeeper callbackKeeper;
 	private Vector2i windowSize = new Vector2i();
+	protected TerrainRenderer terrainRenderer;
+	protected Camera cam;
 
 	@Override
 	public synchronized void start() {
@@ -46,7 +50,7 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 		Log.setMaxLogFiles(10);
 		Log.init(Files.getCommonFolder(CommonFolders.Logs), true);
 		Log.info(getClass(), "Starting the engine.");
-		SaveSystem.init(Files.getCommonFolder(CommonFolders.Saves), Files.getFolder("Data"));
+		SaveSystem.init(Files.getRootFolder(), Files.getFolder("Data"));
 		display = new Window(this);
 		display.create();
 	}
@@ -60,6 +64,8 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 		guiContext = initializer.getContext();
 		guiAnimator = AnimatorProvider.getAnimator();
 		callbackKeeper = initializer.getCallbackKeeper();
+		cam = new Camera();
+		terrainRenderer = new TerrainRenderer(cam);
 
 		callbackKeeper.getChainWindowSizeCallback().add(new GLFWWindowSizeCallbackI() {
 			@Override
@@ -107,6 +113,9 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 		GL15.glEnable(GL15.GL_DEPTH_TEST);
 		GL15.glEnable(GL15.GL_CULL_FACE);
 		GL15.glCullFace(GL15.GL_BACK);
+
+		terrainRenderer.render();
+
 		render();
 
 		guiRenderer.render(frame, guiContext);
