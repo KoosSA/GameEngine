@@ -40,6 +40,14 @@ public class MathUtils {
 		transformationMatrix.scale(scale);
 		return transformationMatrix;
 	}
+	
+	public static Matrix4f getTransformationMatrix(Vector3f position) {
+		transformationMatrix.identity();
+		transformationMatrix.setTranslation(position);
+		transformationMatrix.setRotationXYZ(Math.toRadians(0),  Math.toRadians(0), Math.toRadians(0));
+		transformationMatrix.scale(1);
+		return transformationMatrix;
+	}
 
 	public static float loop(float value, float min, float max) {
 		if (value >= max) value = min + (value - max);
@@ -68,5 +76,7 @@ public class MathUtils {
 		if (value < min) value = min;
 		return value;
 	}
+
+	
 
 }
