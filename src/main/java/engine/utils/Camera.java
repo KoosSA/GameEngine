@@ -8,6 +8,7 @@ import engine.io.GameInput;
 import engine.io.IInputHandler;
 import engine.io.KeyBindings;
 import engine.settings.WindowSettings;
+import engine.terrain.TerrainGenerator;
 
 public class Camera implements IInputHandler {
 
@@ -18,6 +19,7 @@ public class Camera implements IInputHandler {
 	private Matrix4f projectionMatrix = new Matrix4f();
 	private float fov = 45.0f, nearPlane = 0.001f, farPlane = 1000.0f;
 	private boolean active = true;
+	private float speed = 1;
 
 	public Camera() {
 		registerInputHandler();
@@ -25,14 +27,17 @@ public class Camera implements IInputHandler {
 
 	public void move(float x, float y, float z) {
 		position.add(x, y, z);
+		TerrainGenerator.updateTerrianFromCam(position);
 	}
 
 	private void moveForward(float delta, float direction) {
-		position.add(direction * delta * -Math.sin(Math.toRadians(rotation.y())), 0, direction * delta * Math.cos(Math.toRadians(rotation.y())));
+		position.add(direction * delta * speed * -Math.sin(Math.toRadians(rotation.y())), 0, direction * delta * speed * Math.cos(Math.toRadians(rotation.y())));
+		TerrainGenerator.updateTerrianFromCam(position);
 	}
 
 	private void moveRight(float delta, float direction) {
-		position.add(direction * delta * -Math.cos(Math.toRadians(rotation.y())), 0, direction * delta * -Math.sin(Math.toRadians(rotation.y())));
+		position.add(direction * delta * speed * -Math.cos(Math.toRadians(rotation.y())), 0, direction * delta * speed * -Math.sin(Math.toRadians(rotation.y())));
+		TerrainGenerator.updateTerrianFromCam(position);
 	}
 
 	private void turn(float angle) {
@@ -71,9 +76,14 @@ public class Camera implements IInputHandler {
 		if (input.isKeyDown(KeyBindings.MOVE_LEFT))
 			moveRight(delta, -1);
 		if (input.isKeyDown(KeyBindings.MOVE_UP))
-			move(0, -delta, 0);
+			move(0, -delta * speed, 0);
 		if (input.isKeyDown(KeyBindings.MOVE_DOWN))
-			move(0, delta, 0);
+			move(0, delta * speed, 0);
+		if (input.isKeyDown(KeyBindings.SPRINT)) {
+			speed = 20;
+		} else {
+			speed = 1;
+		}
 	}
 
 	public void setActive(boolean active) {
