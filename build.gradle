@@ -1,6 +1,7 @@
 plugins {
 	id 'java'
 	id 'java-library'
+	id 'application'
 }
 
 project.ext {
@@ -68,4 +69,23 @@ dependencies {
 	implementation 'com.github.KoosSA:FileSystem:-SNAPSHOT'
 	implementation 'com.github.KoosSA:Logger:v1.0.0'
 	implementation 'com.github.KoosSA:SaveLibrary:1.0.1'
+}
+
+application {
+	mainClass = 'game.TestGame'
+	executableDir = ''
+}
+
+distZip {
+	into(project.name) {
+		from '.'
+		include 'Assets/'
+	}
+}
+
+distTar {
+	into(project.name) {
+		from '.'
+		include 'Assets/'
+	}
 }
