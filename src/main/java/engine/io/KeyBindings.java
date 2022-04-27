@@ -15,4 +15,6 @@ public class KeyBindings {
 
 	public static final int INVENTORY = GLFW.GLFW_KEY_I;
 
+	public static final int SPRINT = GLFW.GLFW_KEY_LEFT_SHIFT;
+
 }
