@@ -12,7 +12,7 @@ uniform mat4 projectionMatrix;
 
 void main() {
 
-	vec4 worldPosition = projectionMatrix * viewMatrix * vec4(position, 1);
+	vec4 worldPosition = projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 1);
 
 	passTexCoord = textureCoord * 150.0;
 

@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL30;
 import engine.shaders.TerrainShader;
 import engine.terrain.TerrainGenerator;
 import engine.utils.Camera;
+import engine.utils.MathUtils;
 
 public class TerrainRenderer {
 
@@ -24,10 +25,11 @@ public class TerrainRenderer {
 
 		shader.loadViewMatrix(cam.getViewMatrix());
 
-		TerrainGenerator.getChunkList().forEach(chunk -> {
+		TerrainGenerator.getToRender().forEach(chunk -> {
 			GL30.glBindVertexArray(chunk.getRawmodel().getVaoId());
 
 			shader.loadMaterial(chunk.getMaterial());
+			shader.loadTransformationMatrix(MathUtils.getTransformationMatrix(chunk.getPosition()));
 
 			GL30.glDrawElements(GL30.GL_TRIANGLES, chunk.getRawmodel().getCount(), GL30.GL_UNSIGNED_INT, 0);
 

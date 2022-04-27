@@ -8,31 +8,65 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.joml.Math;
+import org.joml.Vector3f;
+
 import com.koossa.filesystem.Files;
 import com.koossa.logger.Log;
 import com.koossa.savelib.SaveSystem;
 
-import engine.models.RawModel;
-import engine.utils.Loader;
-
 public class TerrainGenerator {
 
 	public static final int VERTEX_COUNT = 128;
-	public static final int SIZE = 800;
+	public static final int SIZE = 10;
 
-	private static List<Chunk> chunkList = new ArrayList<Chunk>();
+	private static Map<String, Chunk> chunkList = new HashMap<String, Chunk>();
 	private static Map<String, Biome> availableBiomes = new HashMap<String, Biome>();
 	private static List<String> names = new ArrayList<String>();
 	private static Random r = new Random();
+	private static boolean valid = false;
+	private static int chunkNumberInViewdistance = 3;
+	private static List<Chunk> toRender = new ArrayList<Chunk>();
 
-	public static void generate() {
+	public static void updateTerrianFromCam(Vector3f position) {
+		if (!valid) return;
+		int up = (int) Math.floor(-position.z() / SIZE);
+		int right = (int) Math.floor(-position.x() / SIZE);
+
+		toRender.clear();
+
+		for (int x = -chunkNumberInViewdistance; x <= chunkNumberInViewdistance; x++) {
+			for (int z = -chunkNumberInViewdistance; z <= chunkNumberInViewdistance; z++) {
+				Chunk c = getChunk(up + x, right + z);
+				if (!toRender.contains(c)) toRender.add(c);
+			}
+		}
+	}
+
+	public static void init() {
 		if (availableBiomes.keySet().size() <= 0) loadBiomes();
+		if (names.size() > 0) valid = true;
+	}
 
-		generateChunk();
+	private static Chunk getChunk(int up, int right) {
+		String id = right * SIZE + "0" + up * SIZE;
+		Chunk c = chunkList.getOrDefault(id, null);
+		if (c != null) {
+			return c;
+		}
+		return generateChunk(up, right, id);
+	}
+
+	private static Chunk generateChunk(int up, int right, String id) {
+		Chunk c = new Chunk(VERTEX_COUNT, SIZE);
+		c.setBiome(availableBiomes.get(names.get(r.nextInt(names.size()))));
+		c.setPosition(right * SIZE, 0, up * SIZE);
+		chunkList.put(id, c);
+		return c;
 	}
 
 	private static void loadBiomes() {
-		File folder = Files.getFolder("Data/Biomes");
+		File folder = Files.getFolder("Biomes");
 		String[] files = folder.list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -40,59 +74,14 @@ public class TerrainGenerator {
 			}
 		});
 		for (int i = 0; i < files.length; i++) {
-			Biome b = SaveSystem.load(Biome.class, true, "Biomes", files[i]);
+			Biome b = SaveSystem.load(Biome.class, false, "Biomes", files[i]);
 			availableBiomes.putIfAbsent(b.getName(), b);
 		}
 		names.addAll(availableBiomes.keySet());
 	}
 
-	private static void generateChunk() {
-
-		Chunk c = new Chunk();
-		c.setBiome(availableBiomes.get(names.get(r.nextInt(names.size()))));
-		chunkList.add(c);
-	}
-
-	protected static RawModel generateTerrain() {
-		int count = VERTEX_COUNT * VERTEX_COUNT;
-		float[] vertices = new float[count * 3];
-		float[] normals = new float[count * 3];
-		float[] textureCoords = new float[count*2];
-		int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
-		int vertexPointer = 0;
-		for(int i=0;i<VERTEX_COUNT;i++){
-			for(int j=0;j<VERTEX_COUNT;j++){
-				vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
-				vertices[vertexPointer*3+1] = 0;
-				vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
-				normals[vertexPointer*3] = 0;
-				normals[vertexPointer*3+1] = 1;
-				normals[vertexPointer*3+2] = 0;
-				textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
-				textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
-				vertexPointer++;
-			}
-		}
-		int pointer = 0;
-		for(int gz=0;gz<VERTEX_COUNT-1;gz++){
-			for(int gx=0;gx<VERTEX_COUNT-1;gx++){
-				int topLeft = (gz*VERTEX_COUNT)+gx;
-				int topRight = topLeft + 1;
-				int bottomLeft = ((gz+1)*VERTEX_COUNT)+gx;
-				int bottomRight = bottomLeft + 1;
-				indices[pointer++] = topLeft;
-				indices[pointer++] = bottomLeft;
-				indices[pointer++] = topRight;
-				indices[pointer++] = topRight;
-				indices[pointer++] = bottomLeft;
-				indices[pointer++] = bottomRight;
-			}
-		}
-		return Loader.loadModelData(vertices, textureCoords, normals, indices);
-	}
-
-	public static List<Chunk> getChunkList() {
-		return chunkList;
+	public static List<Chunk> getToRender() {
+		return toRender;
 	}
 
 	public static Biome getBiome(String name) {
@@ -106,5 +95,7 @@ public class TerrainGenerator {
 	public static List<String> getBiomeNames() {
 		return names;
 	}
+
+
 
 }
