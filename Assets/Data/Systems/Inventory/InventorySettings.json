@@ -1,6 +1,0 @@
-{
-  "weightLimit" : true,
-  "sizeLimit" : true,
-  "maxNumberOfSlots" : 24,
-  "maxWeight" : 100.0
-}
