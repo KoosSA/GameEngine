@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL46;
 
 import com.koossa.filesystem.CommonFolders;
 import com.koossa.filesystem.Files;
@@ -70,38 +70,38 @@ public class Loader {
 			model.dispose();
 		});
 		vbos.forEach(vbo ->{
-			GL30.glDeleteBuffers(vbo);
+			GL46.glDeleteBuffers(vbo);
 		});
 	}
 
 	public static RawModel loadModelData(float[] vertices, float[] texCoords, float[] normals, int[] indices) {
-		int vao = GL30.glGenVertexArrays();
-		GL30.glBindVertexArray(vao);
+		int vao = GL46.glGenVertexArrays();
+		GL46.glBindVertexArray(vao);
 		storeFloatData(0, 3, vertices);
 		storeFloatData(1, 2, texCoords);
 		storeFloatData(2, 3, normals);
 		storeIndices(indices);
-		GL30.glEnableVertexAttribArray(0);
-		GL30.glEnableVertexAttribArray(1);
-		GL30.glEnableVertexAttribArray(2);
-		GL30.glBindVertexArray(0);
+		GL46.glEnableVertexAttribArray(0);
+		GL46.glEnableVertexAttribArray(1);
+		GL46.glEnableVertexAttribArray(2);
+		GL46.glBindVertexArray(0);
 		return new RawModel(vao, indices.length);
 	}
 
 	private static void storeIndices(int[] indices) {
-		int id = GL30.glGenBuffers();
-		GL30.glBindBuffer(GL30.GL_ELEMENT_ARRAY_BUFFER, id);
-		GL30.glBufferData(GL30.GL_ELEMENT_ARRAY_BUFFER, indices, GL30.GL_STATIC_DRAW);
+		int id = GL46.glGenBuffers();
+		GL46.glBindBuffer(GL46.GL_ELEMENT_ARRAY_BUFFER, id);
+		GL46.glBufferData(GL46.GL_ELEMENT_ARRAY_BUFFER, indices, GL46.GL_STATIC_DRAW);
 		vbos.add(id);
 	}
 
 	private static void storeFloatData(int index, int size, float[] data) {
-		int vbo = GL30.glGenBuffers();
+		int vbo = GL46.glGenBuffers();
 		vbos.add(vbo);
-		GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, vbo);
-		GL30.glBufferData(GL30.GL_ARRAY_BUFFER, data, GL30.GL_STATIC_DRAW);
-		GL30.glVertexAttribPointer(index, size, GL30.GL_FLOAT, false, 0, 0);
-		GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
+		GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, vbo);
+		GL46.glBufferData(GL46.GL_ARRAY_BUFFER, data, GL46.GL_STATIC_DRAW);
+		GL46.glVertexAttribPointer(index, size, GL46.GL_FLOAT, false, 0, 0);
+		GL46.glBindBuffer(GL46.GL_ARRAY_BUFFER, 0);
 	}
 
 

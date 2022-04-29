@@ -3,7 +3,7 @@ package engine.renderers;
 import java.util.List;
 
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL46;
 
 import engine.models.Model;
 import engine.shaders.StaticShader;
@@ -33,15 +33,15 @@ public class StaticRenderer {
 
 				shader.loadMaterial(mesh.getMaterial());
 
-				GL30.glBindVertexArray(mesh.getRawModel().getVaoId());
+				GL46.glBindVertexArray(mesh.getRawModel().getVaoId());
 
 				shader.loadTransformationMatrix(MathUtils.getTransformationMatrix(new Vector3f(0,0,0), new Vector3f(), new Vector3f(1)));
 
 
 
-				GL30.glDrawElements(GL30.GL_TRIANGLES, mesh.getRawModel().getCount(), GL30.GL_UNSIGNED_INT, 0);
+				GL46.glDrawElements(GL46.GL_TRIANGLES, mesh.getRawModel().getCount(), GL46.GL_UNSIGNED_INT, 0);
 
-				GL30.glBindVertexArray(0);
+				GL46.glBindVertexArray(0);
 
 			});
 		});

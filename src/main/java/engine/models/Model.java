@@ -12,7 +12,7 @@ import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.AIString;
 import org.lwjgl.assimp.AIVector3D;
 import org.lwjgl.assimp.Assimp;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL46;
 
 import com.koossa.filesystem.CommonFolders;
 import com.koossa.filesystem.Files;
@@ -23,7 +23,7 @@ import engine.utils.Material;
 import engine.utils.Texture;
 
 public class Model {
-	
+
 	private List<Mesh> meshList;
 	private String name;
 
@@ -31,18 +31,18 @@ public class Model {
 		this.name = name;
 		loadModelFromFile(name);
 	}
-	
+
 	public List<Mesh> getMeshList() {
 		return meshList;
 	}
-	
+
 	public void dispose() {
 		Log.info(getClass(), "Disposing model: " + name);
 		meshList.forEach(mesh -> {
-			GL30.glDeleteVertexArrays(mesh.getRawModel().getVaoId());
+			GL46.glDeleteVertexArrays(mesh.getRawModel().getVaoId());
 		});
 	}
-	
+
 	private void loadModelFromFile(String name) {
 		Log.info(this, "Loading model: " + name);
 		AIScene scene = Assimp.aiImportFile(Files.getCommonFolderPath(CommonFolders.Models) + "/" + name,
@@ -68,11 +68,11 @@ public class Model {
 			float[] texCoords = new float[aiMesh.mNumVertices() * 2];
 			int[] indices = new int[aiMesh.mNumFaces() * 3];
 			processMesh(aiMesh, vertices, normals, texCoords, indices);
-			
+
 			Material material = mats.get(aiMesh.mMaterialIndex());
-			
+
 			Mesh mesh = new Mesh(Loader.loadModelData(vertices, texCoords, normals, indices), material);
-	
+
 			meshList.add(mesh);
 			aiMesh.free();
 		}
@@ -80,11 +80,11 @@ public class Model {
 		scene.free();
 
 	}
-	
+
 	private void processMaterial(AIMaterial aiMat, List<Material> mats) {
 		Material mat = new Material();
 		AIColor4D colour = AIColor4D.create();
-		
+
 		AIString path = AIString.create();
 		Assimp.aiGetMaterialTexture(aiMat, Assimp.aiTextureType_DIFFUSE, 0, path, (IntBuffer) null, null, null, null, null, null);
 		if (path.length() > 0 && path != null) {
@@ -96,7 +96,7 @@ public class Model {
 			Assimp.aiGetMaterialColor(aiMat, Assimp.AI_MATKEY_COLOR_DIFFUSE, 0, 0, colour);
 			mat.setColour(colour.r(), colour.g(), colour.b(), colour.a());
 		}
-		
+
 		mats.add(mat);
 	}
 
@@ -125,7 +125,7 @@ public class Model {
 		}
 		counter = 0;
 		aiN.free();
-		
+
 		while (aiT.hasRemaining()) {
 			AIVector3D v = aiT.get();
 			texCoords[counter * 2] = v.x();

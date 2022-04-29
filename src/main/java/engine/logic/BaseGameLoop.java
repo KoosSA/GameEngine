@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallbackI;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
 import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL46;
 
 import com.koossa.filesystem.CommonFolders;
 import com.koossa.filesystem.Files;
@@ -107,12 +107,12 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	}
 
 	public void baseRender() {
-		GL15.glClearColor(0.5f, 0.5f, 0.5f, 1);
-		GL15.glClear(GL15.GL_COLOR_BUFFER_BIT | GL15.GL_STENCIL_BUFFER_BIT | GL15.GL_DEPTH_BUFFER_BIT);
+		GL46.glClearColor(0.5f, 0.5f, 0.5f, 1);
+		GL46.glClear(GL46.GL_COLOR_BUFFER_BIT | GL46.GL_STENCIL_BUFFER_BIT | GL46.GL_DEPTH_BUFFER_BIT);
 
-		GL15.glEnable(GL15.GL_DEPTH_TEST);
-		GL15.glEnable(GL15.GL_CULL_FACE);
-		GL15.glCullFace(GL15.GL_BACK);
+		GL46.glEnable(GL46.GL_DEPTH_TEST);
+		GL46.glEnable(GL46.GL_CULL_FACE);
+		GL46.glCullFace(GL46.GL_BACK);
 
 		terrainRenderer.render();
 
@@ -145,7 +145,7 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	protected void onResize(int width, int height) {
 		windowSize.set(width, height);
 		guiContext.setFramebufferSize(windowSize);
-		GL15.glViewport(0, 0, windowSize.x, windowSize.y);
+		GL46.glViewport(0, 0, windowSize.x, windowSize.y);
 		WindowSettings.height = height;
 		WindowSettings.width = width;
 		frame.setSize(width, height);

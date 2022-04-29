@@ -3,7 +3,7 @@ package engine.io;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL46;
 
 import com.koossa.logger.Log;
 
@@ -32,6 +32,9 @@ public class Window {
 
 		GLFW.glfwDefaultWindowHints();
 		GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, WindowSettings.aa_samples);
+		GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 4);
+		GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 6);
+
 
 		long primaryMonitor = GLFW.glfwGetPrimaryMonitor();
 		GLFWVidMode vidMode = GLFW.glfwGetVideoMode(primaryMonitor);
@@ -58,8 +61,8 @@ public class Window {
 
 		GL.createCapabilities();
 
-		GL15.glEnable(GL15.GL_CULL_FACE);
-		GL15.glCullFace(GL15.GL_BACK);
+		GL46.glEnable(GL46.GL_CULL_FACE);
+		GL46.glCullFace(GL46.GL_BACK);
 
 		if (WindowSettings.vsync) {
 			GLFW.glfwSwapInterval(1);

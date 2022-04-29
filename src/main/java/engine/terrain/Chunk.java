@@ -8,7 +8,7 @@ import engine.utils.Material;
 
 public class Chunk {
 
-	private RawModel rawmodel;
+	private static RawModel rawmodel;
 	private Material material;
 	private Biome biome;
 	private Vector3f position = new Vector3f();
@@ -81,6 +81,7 @@ public class Chunk {
 			}
 		}
 		return Loader.loadModelData(vertices, textureCoords, normals, indices);
+
 	}
 
 }

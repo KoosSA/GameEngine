@@ -1,7 +1,7 @@
 package engine.shaders;
 
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL46;
 
 import engine.utils.Material;
 
@@ -40,8 +40,8 @@ public class TerrainShader extends BaseShader {
 		loadVector4f(loc_baseColour, mat.getColour());
 
 		if (mat.isUseTextures()) {
-			GL15.glActiveTexture(GL15.GL_TEXTURE0);
-			GL15.glBindTexture(GL15.GL_TEXTURE_2D, mat.getDiffuse().getId());
+			GL46.glActiveTexture(GL46.GL_TEXTURE0);
+			GL46.glBindTexture(GL46.GL_TEXTURE_2D, mat.getDiffuse().getId());
 		}
 	}
 }
