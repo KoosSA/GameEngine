@@ -13,9 +13,9 @@ import com.koossa.logger.Log;
 
 public class Texture {
 
-	private int id = 0;
-	private int width = 0;
-	private int height = 0;
+	protected int id = 0;
+	protected int width = 0;
+	protected int height = 0;
 	private int channels = 0;
 	private String name = "";
 
@@ -25,7 +25,7 @@ public class Texture {
 		Log.info(getClass(), "Texture loaded: " + name);
 	}
 
-	private void loadTexture(String name) {
+	protected void loadTexture(String name) {
 		id = GL46.glGenTextures();
 		int[] width = new int[1];
 		int[] height = new int[1];
