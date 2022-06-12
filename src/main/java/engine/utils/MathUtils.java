@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.joml.Math;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
@@ -40,7 +41,15 @@ public class MathUtils {
 		transformationMatrix.scale(scale);
 		return transformationMatrix;
 	}
-	
+
+	public static Matrix4f getTransformationMatrix(Vector3f position, Quaternionf rotation, Vector3f scale) {
+		transformationMatrix.identity();
+		transformationMatrix.setTranslation(position);
+		transformationMatrix.rotate(rotation);
+		transformationMatrix.scale(scale);
+		return transformationMatrix;
+	}
+
 	public static Matrix4f getTransformationMatrix(Vector3f position) {
 		transformationMatrix.identity();
 		transformationMatrix.setTranslation(position);
@@ -77,6 +86,6 @@ public class MathUtils {
 		return value;
 	}
 
-	
+
 
 }
