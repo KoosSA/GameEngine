@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL46;
 
 import com.koossa.filesystem.CommonFolders;
 import com.koossa.filesystem.Files;
+import com.koossa.logger.Log;
 
 import engine.models.Model;
 import engine.models.RawModel;
@@ -29,6 +30,7 @@ public class Loader {
 	}
 
 	public static void loadAllTextures() {
+		Log.info(Loader.class, "Texture loading started.");
 		String[] files = Files.getCommonFolder(CommonFolders.Textures).list();
 		if (files == null) return;
 		for (int i = 0; i < files.length; i++) {
@@ -37,6 +39,7 @@ public class Loader {
 				getTexture(file);
 			}
 		}
+		Log.info(Loader.class, "Texture loading finished.");
 	}
 
 	public static Model getModel(String name) {
@@ -49,6 +52,7 @@ public class Loader {
 	}
 
 	public static void loadAllModels() {
+		Log.info(Loader.class, "Model loading started.");
 		String[] files = Files.getCommonFolder(CommonFolders.Models).list();
 		if (files == null) return;
 		for (int i = 0; i < files.length; i++) {
@@ -57,6 +61,7 @@ public class Loader {
 				getModel(file);
 			}
 		}
+		Log.info(Loader.class, "Model loading finished.");
 	}
 
 
