@@ -30,8 +30,8 @@ public class TerrainGenerator {
 
 	public static void updateTerrianFromCam(Vector3f position) {
 		if (!valid) return;
-		int up = (int) Math.floor(-position.z() / SIZE);
-		int right = (int) Math.floor(-position.x() / SIZE);
+		int up = (int) Math.floor(position.z() / SIZE);
+		int right = (int) Math.floor(position.x() / SIZE);
 
 		toRender.clear();
 
