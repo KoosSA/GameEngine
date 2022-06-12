@@ -26,6 +26,8 @@ import engine.io.GameInput;
 import engine.io.IInputHandler;
 import engine.io.KeyBindings;
 import engine.io.Window;
+import engine.managers.AssetManager;
+import engine.renderers.StaticRenderer;
 import engine.renderers.TerrainRenderer;
 import engine.settings.WindowSettings;
 import engine.utils.Camera;
@@ -42,6 +44,7 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	protected CallbackKeeper callbackKeeper;
 	private Vector2i windowSize = new Vector2i();
 	protected TerrainRenderer terrainRenderer;
+	protected StaticRenderer staticRenderer;
 	protected Camera cam;
 
 	@Override
@@ -66,6 +69,7 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 		callbackKeeper = initializer.getCallbackKeeper();
 		cam = new Camera();
 		terrainRenderer = new TerrainRenderer(cam);
+		staticRenderer = new StaticRenderer(cam);
 
 		callbackKeeper.getChainWindowSizeCallback().add(new GLFWWindowSizeCallbackI() {
 			@Override
@@ -115,6 +119,7 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 		GL46.glCullFace(GL46.GL_BACK);
 
 		terrainRenderer.render();
+		staticRenderer.render(AssetManager.getModelsToRender());
 
 		render();
 
