@@ -1,11 +1,13 @@
 package engine.renderers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL46;
 
 import engine.models.Model;
+import engine.models.ModelInstance;
 import engine.shaders.StaticShader;
 import engine.utils.Camera;
 import engine.utils.MathUtils;
@@ -23,23 +25,26 @@ public class StaticRenderer {
 		shader.stop();
 	}
 
-	public void render(List<Model> toRender) {
+	public void render(Map<Model, List<ModelInstance>> list) {
 		shader.start();
 
 		shader.loadViewMatrix(cam.getViewMatrix());
 
-		toRender.forEach(model -> {
+		list.keySet().forEach(model -> {
 			model.getMeshList().forEach(mesh -> {
 
 				shader.loadMaterial(mesh.getMaterial());
 
 				GL46.glBindVertexArray(mesh.getRawModel().getVaoId());
 
-				shader.loadTransformationMatrix(MathUtils.getTransformationMatrix(new Vector3f(0,0,0), new Vector3f(), new Vector3f(1)));
+				list.get(model).forEach(instance -> {
 
+					shader.loadTransformationMatrix(MathUtils.getTransformationMatrix(instance.getPosition(), instance.getRotation(), instance.getScale()));
 
+					GL46.glDrawElements(GL46.GL_TRIANGLES, mesh.getRawModel().getCount(), GL46.GL_UNSIGNED_INT, 0);
 
-				GL46.glDrawElements(GL46.GL_TRIANGLES, mesh.getRawModel().getCount(), GL46.GL_UNSIGNED_INT, 0);
+				});
+
 
 				GL46.glBindVertexArray(0);
 
