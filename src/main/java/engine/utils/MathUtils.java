@@ -50,10 +50,26 @@ public class MathUtils {
 		return transformationMatrix;
 	}
 
+	public static Matrix4f getTransformationMatrix(Vector3f position, Vector3f scale) {
+		transformationMatrix.identity();
+		transformationMatrix.setTranslation(position);
+		transformationMatrix.setRotationXYZ(Math.toRadians(0),  Math.toRadians(0), Math.toRadians(0));
+		transformationMatrix.scale(scale);
+		return transformationMatrix;
+	}
+
 	public static Matrix4f getTransformationMatrix(Vector3f position) {
 		transformationMatrix.identity();
 		transformationMatrix.setTranslation(position);
 		transformationMatrix.setRotationXYZ(Math.toRadians(0),  Math.toRadians(0), Math.toRadians(0));
+		transformationMatrix.scale(1);
+		return transformationMatrix;
+	}
+
+	public static Matrix4f getTransformationMatrix(Vector3f position, Quaternionf rotation) {
+		transformationMatrix.identity();
+		transformationMatrix.setTranslation(position);
+		transformationMatrix.rotate(rotation);
 		transformationMatrix.scale(1);
 		return transformationMatrix;
 	}

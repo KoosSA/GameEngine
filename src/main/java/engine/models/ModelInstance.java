@@ -1,11 +1,14 @@
 package engine.models;
 
+import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
+
+import engine.physics.Physics;
+import engine.utils.MathUtils;
 
 public class ModelInstance {
 
@@ -22,11 +25,11 @@ public class ModelInstance {
 		this.model = model;
 	}
 
-	public ModelInstance(Model model, CollisionShape collShape, float mass, PhysicsSpace physicSpace) {
+	public ModelInstance(Model model, CollisionShape collShape, float mass, Physics physics) {
 		rigidBody = new PhysicsRigidBody(collShape, mass);
 		scale = new Vector3f(1, 1, 1);
 		this.model = model;
-		physicSpace.add(rigidBody);
+		physics.addObjectToPhysicsWorld(rigidBody);
 		rigidBody.setUserObject(this);
 	}
 
@@ -47,7 +50,7 @@ public class ModelInstance {
 	}
 
 	public Vector3f getScale() {
-		return scale;
+		return rigidBody != null ? rigidBody.getTransform(null).getScale() : scale;
 	}
 
 	public void setScale(float x, float y, float z) {
@@ -68,6 +71,10 @@ public class ModelInstance {
 
 	public PhysicsRigidBody getRigidBody() {
 		return rigidBody;
+	}
+
+	public Matrix4f getTransformationMatrix() {
+		return MathUtils.getTransformationMatrix(getPosition(), getRotation(), getScale());
 	}
 
 }

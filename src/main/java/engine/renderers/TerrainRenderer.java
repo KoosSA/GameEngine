@@ -25,8 +25,13 @@ public class TerrainRenderer {
 
 		shader.loadViewMatrix(cam.getViewMatrix());
 
+		//GL30.glDisable(GL30.GL_CULL_FACE);
+		//GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_LINE);
+		//GL30.glLineWidth(3);
+
 		TerrainGenerator.getToRender().forEach(chunk -> {
 			GL46.glBindVertexArray(chunk.getRawmodel().getVaoId());
+			//System.out.println(chunk.getRawmodel().getVaoId());
 
 			shader.loadMaterial(chunk.getMaterial());
 			shader.loadTransformationMatrix(MathUtils.getTransformationMatrix(chunk.getPosition()));
