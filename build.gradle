@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'java-library'
 	id 'application'
+	id 'eclipse'
 }
 
 project.ext {
@@ -18,7 +19,10 @@ repositories {
 	mavenCentral()
 	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 	maven { url "https://raw.githubusercontent.com/SpinyOwl/repo/releases" }
-	maven { url "https://jitpack.io" }
+	maven {
+		url "https://jitpack.io"
+		credentials { username authToken }
+	}
 }
 
 dependencies {
@@ -69,6 +73,9 @@ dependencies {
 	implementation 'com.github.KoosSA:FileSystem:-SNAPSHOT'
 	implementation 'com.github.KoosSA:Logger:v1.0.0'
 	implementation 'com.github.KoosSA:SaveLibrary:1.0.1'
+
+	//implementation  files('Assets/Libs/Libbulletjme-15.1.0.jar')
+
 }
 
 application {
@@ -89,3 +96,4 @@ distTar {
 		include 'Assets/'
 	}
 }
+
