@@ -3,7 +3,6 @@ package engine.renderers;
 import java.util.List;
 import java.util.Map;
 
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL46;
 
 import engine.models.Model;
