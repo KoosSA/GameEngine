@@ -62,7 +62,7 @@ public class TerrainGenerator {
 
 		//Chunk c = getChunk(up, right);
 		//if (!toRender.contains(c)) toRender.add(c);
-		
+
 
 
 		prevRender.forEach(ch -> {
@@ -96,7 +96,7 @@ public class TerrainGenerator {
 		if (c != null) {
 			return c;
 		}
-		Log.debug(TerrainGenerator.class, "Chunk " + right + ", " + up + " does not exist. Creating new chunk.");
+		//Log.debug(TerrainGenerator.class, "Chunk " + right + ", " + up + " does not exist. Creating new chunk.");
 		return generateChunk(up, right, id);
 	}
 

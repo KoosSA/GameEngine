@@ -6,7 +6,6 @@ import org.joml.Vector3f;
 
 import com.jme3.bullet.collision.shapes.HeightfieldCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
-import com.koossa.logger.Log;
 
 import engine.models.RawModel;
 import engine.utils.Loader;
@@ -61,7 +60,7 @@ public class Chunk {
 	}
 
 	private RawModel generateTerrain(int vertex_count, float size, int x, int z) {
-		Log.info(this, "Generating new chunk.");
+		//Log.info(this, "Generating new chunk.");
 		int count = vertex_count * vertex_count;
 		float[] vertices = new float[count * 3];
 		float[] normals = new float[count * 3];
