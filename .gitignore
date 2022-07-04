@@ -1,8 +1,5 @@
 /.gradle/
 /bin/
 **/Logs
-**/Textures
-**/Models
 **/test
-**/GuiIcons
 /build/
