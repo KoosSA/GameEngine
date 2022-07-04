@@ -68,7 +68,7 @@ public class TestGame extends Game {
 	public void handleInput(float delta, GameInput input) {
 		super.handleInput(delta, input);
 		if (input.isKeyJustPressed(GLFW.GLFW_KEY_ENTER)) {
-			ModelInstance mi = new ModelInstance(Loader.getModel("box.fbx"), new BoxCollisionShape(1f, 1f, 1f), 0.0f, physics);
+			ModelInstance mi = new ModelInstance(Loader.getModel("box.fbx"), new BoxCollisionShape(0.5f, 0.5f, 0.5f), 0.0f, physics);
 			AssetManager.getModelsToRender().get(mi.getModel()).add(mi);
 			//mi.getRigidBody().applyCentralImpulse(new Vector3f(0, 20, 0));
 			//mi.getRigidBody().applyTorqueImpulse(new Vector3f(0, 0, 20));
@@ -87,7 +87,7 @@ public class TestGame extends Game {
 //				mi.setScale(2,2,2);
 //			}
 
-			ModelInstance mi = new ModelInstance(Loader.getModel("sphere.fbx"), new SphereCollisionShape(1), 1.0f, physics);
+			ModelInstance mi = new ModelInstance(Loader.getModel("sphere.fbx"), new SphereCollisionShape(0.5f), 1.0f, physics);
 			AssetManager.getModelsToRender().get(mi.getModel()).add(mi);
 			//mi.getRigidBody().applyCentralImpulse(cam.getDirection().mul(50));
 			//mi.getRigidBody().applyTorqueImpulse(new Vector3f(0, 0, 20));

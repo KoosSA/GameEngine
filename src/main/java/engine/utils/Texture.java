@@ -1,6 +1,5 @@
 package engine.utils;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -39,9 +38,9 @@ public class Texture {
 				buff.put(bytes);
 				buff.flip();
 				image = STBImage.stbi_load_from_memory(buff, width, height, channels, STBImage.STBI_rgb_alpha);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
-				Log.error(getClass(), "Texture not loaded: " + path);
+				Log.error(getClass(), "Texture not found or loaded: " + path);
 				return;
 			}
 		}

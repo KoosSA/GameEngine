@@ -49,6 +49,7 @@ public class Model {
 				Assimp.aiProcess_Triangulate | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_FixInfacingNormals | Assimp.aiProcess_GenUVCoords);
 		if (scene == null) {
 			Log.error(this, "Failed to load model: " + name);
+			return;
 		}
 		int numMesh = scene.mNumMeshes();
 		int numMats = scene.mNumMaterials();
@@ -95,6 +96,7 @@ public class Model {
 			//mat.setTintAmount(1);
 			Assimp.aiGetMaterialColor(aiMat, Assimp.AI_MATKEY_COLOR_DIFFUSE, 0, 0, colour);
 			mat.setColour(colour.r(), colour.g(), colour.b(), colour.a());
+			mat.setUseTextures(false);
 		}
 
 		mats.add(mat);
