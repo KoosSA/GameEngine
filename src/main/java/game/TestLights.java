@@ -19,6 +19,7 @@ import engine.models.Model;
 import engine.models.ModelInstance;
 import engine.physics.Physics;
 import engine.settings.WindowSettings;
+import engine.terrain.TerrainGenerator;
 import engine.utils.Loader;
 
 public class TestLights extends Game {
@@ -50,7 +51,9 @@ public class TestLights extends Game {
 		List<ModelInstance> l1 = new ArrayList<ModelInstance>();
 		AssetManager.getModelsToRender().put(m1, l1);
 
-		new Light(new Vector3f(10,10,10), new Vector3f(1,0,0));
+		new Light(new Vector3f(0,1000,0), new Vector3f(1,1,1));
+
+		TerrainGenerator.init(physics);
 
 	}
 

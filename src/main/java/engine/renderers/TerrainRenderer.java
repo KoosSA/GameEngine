@@ -2,6 +2,7 @@ package engine.renderers;
 
 import org.lwjgl.opengl.GL46;
 
+import engine.managers.AssetManager;
 import engine.shaders.TerrainShader;
 import engine.terrain.TerrainGenerator;
 import engine.utils.Camera;
@@ -24,6 +25,8 @@ public class TerrainRenderer {
 		shader.start();
 
 		shader.loadViewMatrix(cam.getViewMatrix());
+
+		shader.loadLight(AssetManager.getLights().get(0));
 
 		//GL30.glDisable(GL30.GL_CULL_FACE);
 		//GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_LINE);

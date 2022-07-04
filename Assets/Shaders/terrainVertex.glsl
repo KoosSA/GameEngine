@@ -5,16 +5,22 @@ layout (location = 1) in vec2 textureCoord;
 layout (location = 2) in vec3 normal;
 
 out vec2 passTexCoord;
+out vec3 surfaceNormal;
+out vec3 toLightVector;
 
 uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
+uniform vec3 lightPosition;
 
 void main() {
 
-	vec4 worldPosition = projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 1);
+	vec4 worldPosition =  transformationMatrix * vec4(position, 1);
+
+	gl_Position = projectionMatrix * viewMatrix * worldPosition;
 
 	passTexCoord = textureCoord * 150.0;
 
-	gl_Position = worldPosition;
+	surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
+	toLightVector = lightPosition - worldPosition.xyz;
 }
