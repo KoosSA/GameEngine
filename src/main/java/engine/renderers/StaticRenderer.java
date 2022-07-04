@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL46;
 
+import engine.managers.AssetManager;
 import engine.models.Model;
 import engine.models.ModelInstance;
 import engine.shaders.StaticShader;
@@ -28,6 +29,7 @@ public class StaticRenderer {
 		shader.start();
 
 		shader.loadViewMatrix(cam.getViewMatrix());
+		shader.loadLight(AssetManager.getLights().get(0));
 
 		list.keySet().forEach(model -> {
 			model.getMeshList().forEach(mesh -> {
