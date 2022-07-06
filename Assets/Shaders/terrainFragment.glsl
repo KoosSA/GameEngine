@@ -19,7 +19,7 @@ void main() {
 	//vec3 unitLightVector = normalize(toLightVector);
 	vec3 unitLightVector = normalize(lightPosition);
 	float ndotl = dot(unitNormal, unitLightVector);
-	float brightness = max(ndotl, 0);
+	float brightness = max(ndotl, 0.1f);
 
 	vec4 colour;
 	if (useTextures == 1) {

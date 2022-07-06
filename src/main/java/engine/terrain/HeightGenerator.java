@@ -4,24 +4,26 @@ import java.util.Random;
 
 public class HeightGenerator {
 
-	private static final float AMPLITUDE = 70;
-	private static final int OCTAVES = 3;
-	private static final float ROUGHNESS = 0.3f;
-
+	private float amplitude = 70;
+	private int octaves = 3;
+	private float roughness = 0.3f;
+	private long seed;
 
 	private Random random = new Random();
-	private int seed;
 
-	public HeightGenerator() {
-		this.seed = random.nextInt(5484581);
+	public HeightGenerator(float amplitude, int octaves, float roughness, long seed) {
+		this.amplitude = amplitude;
+		this.octaves = octaves;
+		this.roughness = roughness;
+		this.seed = seed;
 	}
 
 	public float generateHeight(int x, int z) {
 		float total = 0;
-		float d = (float) Math.pow(2, OCTAVES - 1);
-		for (int i = 0; i < OCTAVES; i++) {
+		float d = (float) Math.pow(2, octaves - 1);
+		for (int i = 0; i < octaves; i++) {
 			float freq = (float) (Math.pow(2, i) / d);
-			float amp = (float) Math.pow(ROUGHNESS, i) * AMPLITUDE;
+			float amp = (float) Math.pow(roughness, i) * amplitude;
 			total += getInterpolatedNoise(x * freq, z * freq) * amp;
 		}
 		return total;

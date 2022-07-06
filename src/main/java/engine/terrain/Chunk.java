@@ -17,7 +17,7 @@ public class Chunk {
 	private Vector3f position = new Vector3f();
 	private PhysicsRigidBody rigidBody;
 	private float size;
-	private static HeightGenerator generator = new HeightGenerator();
+	private static HeightGenerator generator;
 	private float[] vertices;
 	private float[] normals;
 	private float[] textureCoords;
@@ -80,7 +80,7 @@ public class Chunk {
 				vertices[vertexPointer * 3 + 1] = getHeight(j + right * (vertex_count-1), i + up * (vertex_count-1));
 				vertices[vertexPointer * 3 + 2] = (float) i / ((float) vertex_count - 1) * size;
 				heightmap[vertexPointer] = vertices[vertexPointer * 3 + 1];
-				normal = calculateNormal(j, i, normal);
+				normal = calculateNormal(j + right * (vertex_count-1), i + up * (vertex_count-1), normal);
 				normals[vertexPointer * 3] = normal.x();
 				normals[vertexPointer * 3 + 1] = normal.y();
 				normals[vertexPointer * 3 + 2] = normal.z();
@@ -134,6 +134,10 @@ public class Chunk {
 
 	public PhysicsRigidBody getRigidBody() {
 		return rigidBody;
+	}
+
+	public static void setGenerator(HeightGenerator generator) {
+		Chunk.generator = generator;
 	}
 
 }

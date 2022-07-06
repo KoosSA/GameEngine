@@ -28,6 +28,7 @@ public class TestGame extends Game {
 	Physics physics;
 	PhysicsRigidBody rb;
 	PhysicsRigidBody f;
+	Light light;
 
 	public static void main(String[] args) {
 		TestGame app = new TestGame();
@@ -56,9 +57,9 @@ public class TestGame extends Game {
 
 		physics.enableDebug();
 
-		TerrainManager.init(physics);
+		TerrainManager.init(physics, 70, 4, 0.3f, 2589, 128, 400);
 
-		new Light(new Vector3f(0,1,0), new Vector3f(1));
+		light = new Light(new Vector3f(1,0,0), new Vector3f(1));
 
 		//PhysicsRigidBody floor = new PhysicsRigidBody(new BoxCollisionShape(100, 0.5f, 100), 0);
 		//physics.addObjectToPhysicsWorld(floor);
@@ -79,6 +80,10 @@ public class TestGame extends Game {
 			//System.out.println(assetManager.getModelsToRender().get(mi.getModel()).size() + " == " +  1/delta);
 			mi.getRigidBody().setPhysicsLocation(cam.getPointInFrontOfCam(15));
 			physics.addToDebugRenderer(mi.getRigidBody());
+		}
+
+		if (input.isKeyDown(GLFW.GLFW_KEY_R)) {
+			light.getPosition().rotateZ((float) Math.toRadians(1));
 		}
 
 		if (input.isKeyJustPressed(KeyBindings.INTERACT)) {

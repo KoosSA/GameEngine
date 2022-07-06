@@ -53,7 +53,7 @@ public class TestLights extends Game {
 
 		new Light(new Vector3f(0,1000,0), new Vector3f(1,1,1));
 
-		TerrainManager.init(physics);
+		TerrainManager.init(physics, 70, 3, 0.3f, 2589, 128, 400);
 
 		physics.enableDebug();
 	}

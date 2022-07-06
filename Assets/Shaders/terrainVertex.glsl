@@ -21,6 +21,6 @@ void main() {
 
 	passTexCoord = textureCoord * 150.0;
 
-	surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
+	surfaceNormal = (transformationMatrix * vec4(normalize(normal), 0.0)).xyz;
 	//toLightVector = lightPosition - worldPosition.xyz;
 }

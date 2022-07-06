@@ -22,8 +22,8 @@ import engine.terrain.multithreading.TerrainGeneratorThread;
 
 public class TerrainManager {
 
-	public static final int VERTEX_COUNT = 128;
-	public static final float SIZE = 800;
+	public static int VERTEX_COUNT = 128;
+	public static int SIZE = 800;
 
 	private static Map<String, Chunk> chunkList = new HashMap<String, Chunk>();
 	private static Map<String, Biome> availableBiomes = new HashMap<String, Biome>();
@@ -35,6 +35,7 @@ public class TerrainManager {
 	private static List<Chunk> prevRender = new ArrayList<Chunk>();
 	private static Physics physics;
 	private static int prevUp = 0, prevRight = 0;
+	private static HeightGenerator heightGenerator;
 
 	//Multi threaded terrain generation;
 	protected static ConcurrentLinkedQueue<PassTerrainData> genQueueIn = new ConcurrentLinkedQueue<>();
@@ -114,8 +115,12 @@ public class TerrainManager {
 		genQueueIn.add(data);
 	}
 
-	public static void init(Physics physics) {
+	public static void init(Physics physics, float amplitude, int octaves, float roughness, long seed, int vertex_count, int size) {
 		TerrainManager.physics = physics;
+		heightGenerator = new HeightGenerator(amplitude, octaves, roughness, seed);
+		Chunk.setGenerator(heightGenerator);
+		VERTEX_COUNT = vertex_count;
+		SIZE = size;
 		genThread = new TerrainGeneratorThread();
 		genThread.start();
 		if (availableBiomes.keySet().size() <= 0) loadBiomes();
@@ -152,7 +157,7 @@ public class TerrainManager {
 	}
 
 	private static Chunk generateChunk(int up, int right, String id) {
-		Chunk c = new Chunk(VERTEX_COUNT, (int) SIZE, right, up);
+		Chunk c = new Chunk(VERTEX_COUNT, SIZE, right, up);
 		c.setBiome(availableBiomes.get(names.get(r.nextInt(names.size()))));
 		chunkList.putIfAbsent(id, c);
 		return c;
