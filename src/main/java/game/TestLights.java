@@ -19,7 +19,7 @@ import engine.models.Model;
 import engine.models.ModelInstance;
 import engine.physics.Physics;
 import engine.settings.WindowSettings;
-import engine.terrain.TerrainGenerator;
+import engine.terrain.TerrainManager;
 import engine.utils.Loader;
 
 public class TestLights extends Game {
@@ -53,8 +53,9 @@ public class TestLights extends Game {
 
 		new Light(new Vector3f(0,1000,0), new Vector3f(1,1,1));
 
-		TerrainGenerator.init(physics);
+		TerrainManager.init(physics);
 
+		physics.enableDebug();
 	}
 
 	@Override

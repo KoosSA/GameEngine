@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import com.jme3.bullet.PhysicsSpace.BroadphaseType;
@@ -12,13 +13,14 @@ import com.jme3.bullet.objects.PhysicsRigidBody;
 
 import engine.io.GameInput;
 import engine.io.KeyBindings;
+import engine.lights.Light;
 import engine.logic.Game;
 import engine.managers.AssetManager;
 import engine.models.Model;
 import engine.models.ModelInstance;
 import engine.physics.Physics;
 import engine.settings.WindowSettings;
-import engine.terrain.TerrainGenerator;
+import engine.terrain.TerrainManager;
 import engine.utils.Loader;
 
 public class TestGame extends Game {
@@ -54,7 +56,9 @@ public class TestGame extends Game {
 
 		physics.enableDebug();
 
-		TerrainGenerator.init(physics);
+		TerrainManager.init(physics);
+
+		new Light(new Vector3f(0,1,0), new Vector3f(1));
 
 		//PhysicsRigidBody floor = new PhysicsRigidBody(new BoxCollisionShape(100, 0.5f, 100), 0);
 		//physics.addObjectToPhysicsWorld(floor);
@@ -101,6 +105,8 @@ public class TestGame extends Game {
 
 	@Override
 	protected void update(float delta) {
+
+		TerrainManager.update();
 		physics.update(delta);
 
 	}
@@ -115,6 +121,7 @@ public class TestGame extends Game {
 	@Override
 	protected void dispose() {
 		physics.dispose();
+		TerrainManager.dispose();
 	}
 
 }

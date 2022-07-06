@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL46;
 
 import engine.managers.AssetManager;
 import engine.shaders.TerrainShader;
-import engine.terrain.TerrainGenerator;
+import engine.terrain.TerrainManager;
 import engine.utils.Camera;
 import engine.utils.MathUtils;
 
@@ -32,7 +32,7 @@ public class TerrainRenderer {
 		//GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_LINE);
 		//GL30.glLineWidth(3);
 
-		TerrainGenerator.getToRender().forEach(chunk -> {
+		TerrainManager.getToRender().forEach(chunk -> {
 			GL46.glBindVertexArray(chunk.getRawmodel().getVaoId());
 			//System.out.println(chunk.getRawmodel().getVaoId());
 

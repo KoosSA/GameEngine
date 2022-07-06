@@ -47,8 +47,13 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	protected StaticRenderer staticRenderer;
 	protected Camera cam;
 
+	public BaseGameLoop() {
+		super();
+		setName("main thread");
+	}
+
 	@Override
-	public synchronized void start() {
+	public void start() {
 		Files.init("Assets", RootFileLocation.LOCAL);
 		Log.setMaxLogFiles(10);
 		Log.init(Files.getCommonFolder(CommonFolders.Logs), true);

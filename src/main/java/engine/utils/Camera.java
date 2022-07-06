@@ -9,7 +9,7 @@ import engine.io.GameInput;
 import engine.io.IInputHandler;
 import engine.io.KeyBindings;
 import engine.settings.WindowSettings;
-import engine.terrain.TerrainGenerator;
+import engine.terrain.TerrainManager;
 
 public class Camera implements IInputHandler {
 
@@ -18,7 +18,7 @@ public class Camera implements IInputHandler {
 	private float scale = 1;
 	private Matrix4f viewMatrix = new Matrix4f();
 	private Matrix4f projectionMatrix = new Matrix4f();
-	private float fov = 45.0f, nearPlane = 0.001f, farPlane = 1000.0f;
+	private float fov = 45.0f, nearPlane = 0.001f, farPlane = 2000.0f;
 	private boolean active = true;
 	private float speed = 1;
 	private Vector3f forward = new Vector3f(0, 0, -1);
@@ -32,17 +32,17 @@ public class Camera implements IInputHandler {
 
 	public void move(float x, float y, float z) {
 		position.add(x, y, z);
-		TerrainGenerator.updateTerrianFromCam(position);
+		TerrainManager.updateTerrianFromCam(position);
 	}
 
 	private void moveForward(float delta, float direction) {
 		position.add(getForward().x() * direction * delta * speed, 0, getForward().z * direction * delta * speed);
-		TerrainGenerator.updateTerrianFromCam(position);
+		TerrainManager.updateTerrianFromCam(position);
 	}
 
 	private void moveRight(float delta, float direction) {
 		position.add(getRight().x() * speed * delta * -direction, 0, getRight().z() * speed * delta * -direction);
-		TerrainGenerator.updateTerrianFromCam(position);
+		TerrainManager.updateTerrianFromCam(position);
 	}
 
 	public void turn(float angle) {
@@ -96,7 +96,7 @@ public class Camera implements IInputHandler {
 		if (input.isKeyDown(KeyBindings.MOVE_DOWN))
 			move(0, -delta * speed, 0);
 		if (input.isKeyDown(KeyBindings.SPRINT)) {
-			speed = 20;
+			speed = 200;
 		} else {
 			speed = 1;
 		}
