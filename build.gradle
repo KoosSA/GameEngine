@@ -68,8 +68,6 @@ dependencies {
 	implementation "com.code-disaster.steamworks4j:steamworks4j:${steamworks4jVersion}"
 	implementation "com.code-disaster.steamworks4j:steamworks4j-server:${steamworks4j_serverVersion}"
 
-	implementation group: 'com.spinyowl', name: 'legui', version: "${legui}";
-
 	implementation 'com.github.KoosSA:FileSystem:-SNAPSHOT'
 	implementation 'com.github.KoosSA:Logger:v1.0.0'
 	implementation 'com.github.KoosSA:SaveLibrary:1.0.1'
