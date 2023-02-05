@@ -25,7 +25,7 @@ public class TerrainRenderer {
 	public void render() {
 		shader.start();
 
-		shader.loadViewMatrix(cam.getViewMatrix());
+		shader.loadCamera(cam);
 		shader.loadDirectionalLight(AssetManager.getDirectionalLight());
 
 		//GL30.glDisable(GL30.GL_CULL_FACE);

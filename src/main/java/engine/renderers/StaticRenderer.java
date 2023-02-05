@@ -29,7 +29,7 @@ public class StaticRenderer {
 	public void render(Map<Model, List<ModelInstance>> list) {
 		shader.start();
 
-		shader.loadViewMatrix(cam.getViewMatrix());
+		shader.loadCamera(cam);
 		shader.loadDirectionalLight(AssetManager.getDirectionalLight());
 
 		list.keySet().forEach(model -> {

@@ -12,6 +12,7 @@ import com.koossa.logger.Log;
 
 import engine.lights.AmbientLight;
 import engine.lights.DirectionalLight;
+import engine.utils.Camera;
 import engine.utils.FileUtils;
 import engine.utils.MathUtils;
 
@@ -21,8 +22,10 @@ public abstract class BaseShader {
 	private int vertexId;
 	private int fragmentId;
 
+	private int loc_projectionMatrix, loc_viewMatrix, loc_transformationMatrix;
 	private int loc_ambientLightColour, loc_ambientLightIntensity;
 	private int loc_directionalLightColour, loc_directionalLightIntensity, loc_directionalLightDirection;
+	private int loc_camPos;
 
 	public BaseShader(String vertexFileName, String fragmentFileName) {
 		createProgram(vertexFileName, fragmentFileName);
@@ -31,6 +34,10 @@ public abstract class BaseShader {
 		loc_directionalLightColour = getUniformLocation("sunL.Colour");
 		loc_directionalLightIntensity = getUniformLocation("sunL.Intensity");
 		loc_directionalLightDirection = getUniformLocation("sunL.Direction");
+		loc_camPos = getUniformLocation("camPosition");
+		loc_projectionMatrix = getUniformLocation("projectionMatrix");
+		loc_transformationMatrix = getUniformLocation("transformationMatrix");
+		loc_viewMatrix = getUniformLocation("viewMatrix");
 		getUniformLocations();
 	}
 
@@ -76,6 +83,19 @@ public abstract class BaseShader {
 		} else {
 			loadFloat(location, 0.0f);
 		}
+	}
+
+	public void loadCamera(Camera cam) {
+		loadVector3f(loc_camPos, cam.getPosition());
+		loadMatrix4f(loc_viewMatrix, cam.getViewMatrix());
+	}
+
+	public void loadProjectionMatrix(Matrix4f projection) {
+		loadMatrix4f(loc_projectionMatrix, projection);
+	}
+
+	public void loadTransformationMatrix(Matrix4f transformation) {
+		loadMatrix4f(loc_transformationMatrix, transformation);
 	}
 
 	public void loadAmbientLight(AmbientLight light) {

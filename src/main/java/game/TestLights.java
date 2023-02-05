@@ -7,7 +7,6 @@ import org.lwjgl.glfw.GLFW;
 
 import com.jme3.bullet.PhysicsSpace.BroadphaseType;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 
@@ -53,7 +52,7 @@ public class TestLights extends Game {
 
 
 
-		TerrainManager.init(physics, 1, 3, 0, 2589, 128, 400);
+		TerrainManager.init(physics, 0, 3, 1, 2589, 128, 400);
 
 		//physics.enableDebug();
 	}

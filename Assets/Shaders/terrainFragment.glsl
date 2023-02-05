@@ -30,7 +30,7 @@ void main() {
 	vec3 sun = sunL.Colour * sunL.Intensity * sunAmount;
 
 
-	vec3 totalLight = ((ambL.Colour * ambL.Intensity) + sun) / 2.0f;
+	vec3 totalLight = (ambL.Colour  + sun) * (ambL.Intensity + sunAmount) ;
 
 	vec4 colour;
 	if (useTextures == 1) {
