@@ -3,8 +3,8 @@ package engine.logic;
 import org.joml.Vector2i;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallbackI;
-import org.lwjgl.glfw.GLFWKeyCallbackI;
-import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL46;
 
 import com.koossa.filesystem.CommonFolders;
@@ -12,15 +12,6 @@ import com.koossa.filesystem.Files;
 import com.koossa.filesystem.RootFileLocation;
 import com.koossa.logger.Log;
 import com.koossa.savelib.SaveSystem;
-import com.spinyowl.legui.DefaultInitializer;
-import com.spinyowl.legui.animation.Animator;
-import com.spinyowl.legui.animation.AnimatorProvider;
-import com.spinyowl.legui.component.Frame;
-import com.spinyowl.legui.listener.processor.EventProcessorProvider;
-import com.spinyowl.legui.system.context.CallbackKeeper;
-import com.spinyowl.legui.system.context.Context;
-import com.spinyowl.legui.system.layout.LayoutManager;
-import com.spinyowl.legui.system.renderer.Renderer;
 
 import engine.io.GameInput;
 import engine.io.IInputHandler;
@@ -36,12 +27,6 @@ import engine.utils.Loader;
 public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 	private Window display;
-	private Renderer guiRenderer;
-	private Context guiContext;
-	protected Frame frame;
-	private DefaultInitializer initializer;
-	private Animator guiAnimator;
-	protected CallbackKeeper callbackKeeper;
 	private Vector2i windowSize = new Vector2i();
 	protected TerrainRenderer terrainRenderer;
 	protected StaticRenderer staticRenderer;
@@ -65,25 +50,19 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 	public void baseInit(GameInput input) {
 		registerInputHandler();
-		frame = new Frame(WindowSettings.width, WindowSettings.height);
-		initializer = new DefaultInitializer(getDisplay().getWindowId(), frame);
-		guiRenderer = initializer.getRenderer();
-		guiRenderer.initialize();
-		guiContext = initializer.getContext();
-		guiAnimator = AnimatorProvider.getAnimator();
-		callbackKeeper = initializer.getCallbackKeeper();
+
 		cam = new Camera();
 		terrainRenderer = new TerrainRenderer(cam);
 		staticRenderer = new StaticRenderer(cam);
 
-		callbackKeeper.getChainWindowSizeCallback().add(new GLFWWindowSizeCallbackI() {
+		GLFW.glfwSetWindowSizeCallback(display.getWindowId(), new GLFWWindowSizeCallback() {
 			@Override
 			public void invoke(long window, int width, int height) {
 				onResize(width, height);
 			}
 		});
 
-		callbackKeeper.getChainKeyCallback().add(new GLFWKeyCallbackI() {
+		GLFW.glfwSetKeyCallback(display.getWindowId(), new GLFWKeyCallback() {
 			@Override
 			public void invoke(long window, int key, int scancode, int action, int mods) {
 				if (action == GLFW.GLFW_PRESS) {
@@ -93,7 +72,8 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 				}
 			}
 		});
-		callbackKeeper.getChainCursorPosCallback().add(new GLFWCursorPosCallbackI() {
+
+		GLFW.glfwSetCursorPosCallback(display.getWindowId(), new GLFWCursorPosCallbackI() {
 			@Override
 			public void invoke(long window, double xpos, double ypos) {
 				input.addMouseMovement(xpos, ypos);
@@ -104,13 +84,6 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 	}
 
 	public void baseUpdate(float delta) {
-		guiContext.updateGlfwWindow();
-		guiAnimator.runAnimations();
-		initializer.getSystemEventProcessor().processEvents(frame, guiContext);
-		initializer.getGuiEventProcessor().processEvents();
-
-		EventProcessorProvider.getInstance().processEvents();
-		LayoutManager.getInstance().layout(frame);
 
 		update(delta);
 	}
@@ -128,9 +101,6 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 		render();
 
-		guiRenderer.render(frame, guiContext);
-
-		AnimatorProvider.getAnimator().runAnimations();
 	}
 
 	public void baseDispose() {
@@ -138,7 +108,6 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 		dispose();
 
-		guiRenderer.destroy();
 		Loader.dispose();
 		Log.dispose();
 	}
@@ -154,11 +123,9 @@ public abstract class BaseGameLoop extends Thread implements IInputHandler {
 
 	protected void onResize(int width, int height) {
 		windowSize.set(width, height);
-		guiContext.setFramebufferSize(windowSize);
 		GL46.glViewport(0, 0, windowSize.x, windowSize.y);
 		WindowSettings.height = height;
 		WindowSettings.width = width;
-		frame.setSize(width, height);
 	}
 
 	@Override
