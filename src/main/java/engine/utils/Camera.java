@@ -96,7 +96,7 @@ public class Camera implements IInputHandler {
 		if (input.isKeyDown(KeyBindings.MOVE_DOWN))
 			move(0, -delta * speed, 0);
 		if (input.isKeyDown(KeyBindings.SPRINT)) {
-			speed = 200;
+			speed = 50;
 		} else {
 			speed = 1;
 		}

@@ -5,7 +5,7 @@ public class WindowSettings {
 	public static boolean fullscreen = false;
 	public static boolean vsync = false;
 
-	public static double targetFPS = 60.00;
+	public static double targetFPS = 60;
 
 	public static String title = "Game Engine";
 

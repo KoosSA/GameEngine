@@ -3,7 +3,6 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import com.jme3.bullet.PhysicsSpace.BroadphaseType;
@@ -57,9 +56,9 @@ public class TestGame extends Game {
 
 		physics.enableDebug();
 
-		TerrainManager.init(physics, 70, 4, 0.3f, 2589, 128, 400);
+		TerrainManager.init(physics, 30, 4, 0.3f, 2589, 128, 400);
 
-		light = new Light(new Vector3f(1,0,0), new Vector3f(1));
+		//light = new Light(new Vector3f(1,0,0), new Vector3f(1));
 
 		//PhysicsRigidBody floor = new PhysicsRigidBody(new BoxCollisionShape(100, 0.5f, 100), 0);
 		//physics.addObjectToPhysicsWorld(floor);
@@ -83,7 +82,7 @@ public class TestGame extends Game {
 		}
 
 		if (input.isKeyDown(GLFW.GLFW_KEY_R)) {
-			light.getPosition().rotateZ((float) Math.toRadians(1));
+			//light.getPosition().rotateZ((float) Math.toRadians(1));
 		}
 
 		if (input.isKeyJustPressed(KeyBindings.INTERACT)) {

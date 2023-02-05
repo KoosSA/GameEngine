@@ -22,14 +22,14 @@ import engine.settings.WindowSettings;
 import engine.terrain.TerrainManager;
 import engine.utils.Loader;
 
-public class TestLights extends Game {
+public class StressTest extends Game {
 
 	Physics physics;
 	PhysicsRigidBody rb;
 	PhysicsRigidBody f;
 
 	public static void main(String[] args) {
-		TestLights app = new TestLights();
+		StressTest app = new StressTest();
 		WindowSettings.fullscreen = false;
 		WindowSettings.vsync = true;
 		app.start();
@@ -53,9 +53,11 @@ public class TestLights extends Game {
 
 
 
-		TerrainManager.init(physics, 1, 3, 0, 2589, 128, 400);
+		TerrainManager.init(physics, 1, 3, 0, 2589, 128, 100);
+		TerrainManager.setChunkNumberInViewdistance(5);
+		
 
-		//physics.enableDebug();
+		physics.enableDebug();
 	}
 
 	@Override
@@ -71,13 +73,13 @@ public class TestLights extends Game {
 			physics.addToDebugRenderer(mi.getRigidBody());
 		}
 
-		if (input.isKeyJustPressed(KeyBindings.INTERACT)) {
+		if (input.isKeyDown(KeyBindings.INTERACT)) {
 			ModelInstance mi = new ModelInstance(Loader.getModel("sphere.fbx"), new SphereCollisionShape(1f), 1.0f, physics);
 			AssetManager.getModelsToRender().get(mi.getModel()).add(mi);
 			//mi.getRigidBody().applyCentralImpulse(new Vector3f(0, 20, 0));
 			//mi.getRigidBody().applyTorqueImpulse(new Vector3f(0, 0, 20));
 			//System.out.println(assetManager.getModelsToRender().get(mi.getModel()).size() + " == " +  1/delta);
-			mi.getRigidBody().setPhysicsLocation(cam.getPointInFrontOfCam(7));
+			mi.getRigidBody().setPhysicsLocation(cam.getPointInFrontOfCam(100));
 			physics.addToDebugRenderer(mi.getRigidBody());
 		}
 

@@ -6,12 +6,11 @@ layout (location = 2) in vec3 normal;
 
 out vec2 passTexCoord;
 out vec3 surfaceNormal;
-out vec3 toLightVector;
+out vec3 vertexPos;
 
 uniform mat4 transformationMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
-//uniform vec3 lightPosition;
 
 void main() {
 
@@ -22,5 +21,5 @@ void main() {
 	passTexCoord = textureCoord * 150.0;
 
 	surfaceNormal = (transformationMatrix * vec4(normalize(normal), 0.0)).xyz;
-	//toLightVector = lightPosition - worldPosition.xyz;
+	vertexPos = worldPosition.xyz;
 }

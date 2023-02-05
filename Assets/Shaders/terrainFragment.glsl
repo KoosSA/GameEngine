@@ -2,24 +2,35 @@
 
 in vec2 passTexCoord;
 in vec3 surfaceNormal;
-in vec3 toLightVector;
+in vec3 vertexPos;
 
 out vec4 outColour;
 
+struct ambientLight {
+	float Intensity;
+	vec3 Colour;
+};
+struct directionalLight {
+	float Intensity;
+	vec3 Direction;
+	vec3 Colour;
+};
+
 uniform float useTextures;
 uniform vec4 baseColour;
-uniform vec3 lightColour;
-uniform vec3 lightPosition;
+uniform ambientLight ambL;
+uniform directionalLight sunL;
 
 uniform sampler2D sampler;
 
 void main() {
 
-	vec3 unitNormal = normalize(surfaceNormal);
-	//vec3 unitLightVector = normalize(toLightVector);
-	vec3 unitLightVector = normalize(lightPosition);
-	float ndotl = dot(unitNormal, unitLightVector);
-	float brightness = max(ndotl, 0.1f);
+	vec3 sunDir = normalize(sunL.Direction);
+	float sunAmount = max(dot(surfaceNormal, -sunDir), 0);
+	vec3 sun = sunL.Colour * sunL.Intensity * sunAmount;
+
+
+	vec3 totalLight = ((ambL.Colour * ambL.Intensity) + sun) / 2.0f;
 
 	vec4 colour;
 	if (useTextures == 1) {
@@ -27,8 +38,11 @@ void main() {
 	} else {
 		colour = baseColour;
 	}
-	colour = colour * vec4(lightColour, 1.0) * brightness;
+
+	colour = colour * vec4(totalLight, 1.0);
 
 	outColour = colour;
 
 }
+
+

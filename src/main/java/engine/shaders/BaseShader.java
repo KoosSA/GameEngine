@@ -10,6 +10,8 @@ import com.koossa.filesystem.CommonFolders;
 import com.koossa.filesystem.Files;
 import com.koossa.logger.Log;
 
+import engine.lights.AmbientLight;
+import engine.lights.DirectionalLight;
 import engine.utils.FileUtils;
 import engine.utils.MathUtils;
 
@@ -19,8 +21,16 @@ public abstract class BaseShader {
 	private int vertexId;
 	private int fragmentId;
 
+	private int loc_ambientLightColour, loc_ambientLightIntensity;
+	private int loc_directionalLightColour, loc_directionalLightIntensity, loc_directionalLightDirection;
+
 	public BaseShader(String vertexFileName, String fragmentFileName) {
 		createProgram(vertexFileName, fragmentFileName);
+		loc_ambientLightColour = getUniformLocation("ambL.Colour");
+		loc_ambientLightIntensity = getUniformLocation("ambL.Intensity");
+		loc_directionalLightColour = getUniformLocation("sunL.Colour");
+		loc_directionalLightIntensity = getUniformLocation("sunL.Intensity");
+		loc_directionalLightDirection = getUniformLocation("sunL.Direction");
 		getUniformLocations();
 	}
 
@@ -66,6 +76,17 @@ public abstract class BaseShader {
 		} else {
 			loadFloat(location, 0.0f);
 		}
+	}
+
+	public void loadAmbientLight(AmbientLight light) {
+		loadFloat(loc_ambientLightIntensity, light.getIntensity());
+		loadVector3f(loc_ambientLightColour, light.getColour());
+	}
+
+	public void loadDirectionalLight(DirectionalLight light) {
+		loadFloat(loc_directionalLightIntensity, light.getIntensity());
+		loadVector3f(loc_directionalLightColour, light.getColour());
+		loadVector3f(loc_directionalLightDirection, light.getDirection());
 	}
 
 	protected abstract void getUniformLocations();

@@ -22,6 +22,7 @@ public class StaticRenderer {
 		this.cam = cam;
 		shader.start();
 		shader.loadProjectionMatrix(cam.getProjectionMatrix());
+		shader.loadAmbientLight(AssetManager.getAmbientLight());
 		shader.stop();
 	}
 
@@ -29,7 +30,7 @@ public class StaticRenderer {
 		shader.start();
 
 		shader.loadViewMatrix(cam.getViewMatrix());
-		shader.loadLight(AssetManager.getLights().get(0));
+		shader.loadDirectionalLight(AssetManager.getDirectionalLight());
 
 		list.keySet().forEach(model -> {
 			model.getMeshList().forEach(mesh -> {

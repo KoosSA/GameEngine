@@ -18,6 +18,7 @@ public class TerrainRenderer {
 		this.cam = cam;
 		shader.start();
 		shader.loadProjectionMatrix(cam.getProjectionMatrix());
+		shader.loadAmbientLight(AssetManager.getAmbientLight());
 		shader.stop();
 	}
 
@@ -25,8 +26,7 @@ public class TerrainRenderer {
 		shader.start();
 
 		shader.loadViewMatrix(cam.getViewMatrix());
-
-		shader.loadLight(AssetManager.getLights().get(0));
+		shader.loadDirectionalLight(AssetManager.getDirectionalLight());
 
 		//GL30.glDisable(GL30.GL_CULL_FACE);
 		//GL30.glPolygonMode(GL30.GL_FRONT_AND_BACK, GL30.GL_LINE);

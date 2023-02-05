@@ -202,4 +202,8 @@ public class TerrainManager {
 		return genQueueOut;
 	}
 
+	public static void setChunkNumberInViewdistance(int chunkNumberInViewdistance) {
+		TerrainManager.chunkNumberInViewdistance = chunkNumberInViewdistance;
+	}
+
 }
